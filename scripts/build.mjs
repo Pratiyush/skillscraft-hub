@@ -276,7 +276,7 @@ async function main() {
 
   // Cloudflare RFC v0.2.0-compliant discovery index
   const index = {
-    $schema: "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+    $schema: "https://pratiyush.github.io/skillscraft-hub/schemas/discovery/v1/schema.json",
     name: "skillscraft-hub",
     description:
       "Official SkillsCraft marketplace — skills, prompts, agents, MCP",

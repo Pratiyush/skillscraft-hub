@@ -3,7 +3,7 @@ name: skill-template
 description: >
   Scaffold new Agent Skills with best-practice structure and frontmatter.
   Use when the user wants to create a new skill, bootstrap a skill directory,
-  or generate SKILL.md boilerplate following the agentskills.io spec.
+  or generate SKILL.md boilerplate following the Agent Skills spec.
 license: MIT
 compatibility: Node.js 22+
 metadata:
