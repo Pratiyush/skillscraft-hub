@@ -27,11 +27,11 @@ Activate when the user wants to:
 
 1. For vulnerability and staleness checks, run:
    ```
-   node scripts/audit-packages.js <project-directory>
+   node scripts/audit-packages.mjs <project-directory>
    ```
 2. For license compliance, run:
    ```
-   node scripts/check-licenses.js <project-directory>
+   node scripts/check-licenses.mjs <project-directory>
    ```
 3. Parse the JSON output from each script
 4. Present findings sorted by severity: critical > high > medium > low

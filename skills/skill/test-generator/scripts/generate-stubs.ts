@@ -3,7 +3,7 @@
  * Run with: deno run --allow-read --allow-write generate-stubs.ts <source-file> --output <test-file> [--framework vitest|jest|mocha]
  */
 
-import { parse as parsePath } from "https://deno.land/std/path/mod.ts";
+import { parse as parsePath } from "https://deno.land/std@0.224.0/path/mod.ts";
 
 interface FunctionInfo {
   name: string;

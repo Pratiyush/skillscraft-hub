@@ -71,19 +71,21 @@ function stripPrefix(message) {
 
 function getCommits(from, to) {
   const range = from ? `${from}..${to}` : to;
-  const format = "%H|||%s|||%an";
+  // Use NUL bytes (%x00) as field delimiter and record separator —
+  // safe because NUL cannot appear in git subjects
+  const format = "%H%x00%s%x00%an%x00%x1e";
   try {
     const raw = execSync(
       `git log --first-parent --pretty=format:"${format}" ${range}`,
       { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] }
     );
     return raw
-      .trim()
-      .split("\n")
+      .split("\x1e")
+      .map((r) => r.trim())
       .filter(Boolean)
       .map((line) => {
-        const [hash, subject, author] = line.split("|||");
-        return { hash: hash.slice(0, 8), subject, author };
+        const [hash, subject, author] = line.split("\x00");
+        return { hash: (hash || "").slice(0, 8), subject, author };
       });
   } catch {
     console.error(`Error: Could not read git log for range ${range}`);

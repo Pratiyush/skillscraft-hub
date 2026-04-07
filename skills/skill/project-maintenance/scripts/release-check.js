@@ -11,13 +11,18 @@
 
 const { execSync } = require("node:child_process");
 const { readFileSync, existsSync } = require("node:fs");
+const { resolve } = require("node:path");
 const { parseArgs } = require("node:util");
 
-function exec(cmd) {
+// Target directory for checks — can be overridden with --dir
+let TARGET_DIR = process.cwd();
+
+function exec(cmd, opts = {}) {
   try {
     return execSync(cmd, {
       encoding: "utf-8",
       stdio: ["pipe", "pipe", "pipe"],
+      cwd: opts.cwd || TARGET_DIR,
     }).trim();
   } catch {
     return null;
@@ -136,8 +141,21 @@ function checkDeps() {
 
 function main() {
   const { values } = parseArgs({
-    options: { version: { type: "string", default: "" } },
+    options: {
+      version: { type: "string", default: "" },
+      dir: { type: "string", default: "" },
+    },
   });
+
+  // Resolve target directory — run all checks against it
+  if (values.dir) {
+    TARGET_DIR = resolve(values.dir);
+    if (!existsSync(TARGET_DIR)) {
+      console.error(`Error: directory "${TARGET_DIR}" does not exist`);
+      process.exit(1);
+    }
+    process.chdir(TARGET_DIR);
+  }
 
   const items = [
     checkCI(),

@@ -13,7 +13,7 @@ Thank you for your interest in contributing to the SkillsCraft Hub marketplace! 
 
 1. **Create your skill** using the scaffold command:
    ```bash
-   skill create my-skill
+   skill init my-skill
    ```
 
 2. **Develop and test** your skill locally:

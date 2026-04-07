@@ -9,7 +9,7 @@
  * Requires: gh CLI authenticated
  */
 
-const { execSync } = require("node:child_process");
+const { spawnSync } = require("node:child_process");
 const { parseArgs } = require("node:util");
 
 const TEMPLATES = {
@@ -128,22 +128,29 @@ function main() {
     return;
   }
 
-  let cmd = `gh issue create --title "${values.title.replace(/"/g, '\\"')}"`;
-  cmd += ` --body "${body.replace(/"/g, '\\"').replace(/\n/g, "\\n")}"`;
+  // Build args array — never interpolate into shell (prevents injection)
+  const args = ["issue", "create", "--title", values.title, "--body", body];
   if (values.labels) {
-    values.labels.split(",").forEach((l) => {
-      cmd += ` --label "${l.trim()}"`;
-    });
+    for (const label of values.labels.split(",")) {
+      args.push("--label", label.trim());
+    }
   }
-  if (values.assignee) cmd += ` --assignee "${values.assignee.replace("@", "")}"`;
+  if (values.assignee) {
+    args.push("--assignee", values.assignee.replace(/^@/, ""));
+  }
 
-  try {
-    const result = execSync(cmd, { encoding: "utf-8" }).trim();
-    console.log(JSON.stringify({ created: true, url: result, type, title: values.title }));
-  } catch (e) {
-    console.error(`Error creating issue: ${e.message}`);
+  const result = spawnSync("gh", args, {
+    encoding: "utf-8",
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+
+  if (result.status !== 0) {
+    console.error(`Error creating issue: ${result.stderr || result.error?.message || "unknown"}`);
     process.exit(1);
   }
+
+  const url = (result.stdout || "").trim();
+  console.log(JSON.stringify({ created: true, url, type, title: values.title }));
 }
 
 main();

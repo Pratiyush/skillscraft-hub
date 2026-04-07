@@ -32,7 +32,8 @@ const { values } = parseArgs({
 });
 
 const lang = values.lang;
-const data = GREETINGS[lang] || GREETINGS.en;
+const supported = Object.prototype.hasOwnProperty.call(GREETINGS, lang);
+const data = supported ? GREETINGS[lang] : GREETINGS.en;
 
 console.log(
   JSON.stringify(
@@ -40,6 +41,8 @@ console.log(
       language: lang,
       greeting: data.greeting,
       formal: data.formal || null,
+      fallback: !supported,
+      supportedLanguages: Object.keys(GREETINGS),
     },
     null,
     2

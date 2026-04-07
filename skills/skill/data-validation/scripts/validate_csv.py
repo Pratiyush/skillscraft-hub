@@ -33,7 +33,7 @@ def validate_csv(file_path: str) -> dict:
                 if not h or not h.strip():
                     errors.append({"line": 1, "column": f"column_{i}", "message": f"Empty header at position {i}"})
 
-            seen_rows: list[str] = []
+            seen_rows: set[str] = set()  # O(1) lookup (was list: O(n) per row)
             for line_num, row in enumerate(reader, start=2):
                 row_count += 1
                 row_key = "|".join(str(v) for v in row.values())
@@ -41,7 +41,8 @@ def validate_csv(file_path: str) -> dict:
                 # Check for duplicate rows
                 if row_key in seen_rows:
                     warnings.append({"line": line_num, "column": "", "message": "Duplicate row"})
-                seen_rows.append(row_key)
+                else:
+                    seen_rows.add(row_key)
 
                 # Check for empty values
                 for col, val in row.items():

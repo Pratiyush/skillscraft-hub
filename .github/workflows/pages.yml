@@ -5,6 +5,7 @@ on:
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 permissions:
+  contents: read
   pages: write
   id-token: write
 concurrency:
@@ -24,6 +25,9 @@ jobs:
           node-version: 22
           cache: "pnpm"
       - run: pnpm install
+
+      - name: Run tests
+        run: pnpm test
 
       - name: Build distribution
         run: pnpm build

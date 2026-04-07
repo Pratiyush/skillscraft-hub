@@ -101,4 +101,7 @@ async function main() {
   console.log("\nAll skills valid.");
 }
 
-main();
+main().catch((err) => {
+  console.error("Validation error:", err);
+  process.exit(1);
+});

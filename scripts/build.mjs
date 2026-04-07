@@ -239,7 +239,14 @@ async function main() {
       ignorePatterns
     );
 
-    // Compute digest of SKILL.md
+    // Cloudflare RFC v0.2.0: entries are either "skill-md" (single file)
+    // or "archive" (multi-file). The URL points to the artifact, and digest
+    // is SHA256 of that artifact's raw bytes.
+    const isArchive = files.length > 1;
+    const type = isArchive ? "archive" : "skill-md";
+    const url = isArchive
+      ? `skills/skill/${entry.name}/`
+      : `skills/skill/${entry.name}/SKILL.md`;
     const digest = sha256(join(destDir, "SKILL.md"));
 
     console.log(
@@ -248,9 +255,9 @@ async function main() {
 
     indexEntries.push({
       name: entry.name,
-      type: files.length === 1 ? "skill-md" : "archive",
+      type,
       description: entry.description.replace(/\n/g, " ").trim(),
-      url: `skills/skill/${entry.name}/`,
+      url,
       digest,
       version: entry.metadata.version || "1.0",
       author: entry.metadata.author || "skillscraft",
@@ -267,8 +274,9 @@ async function main() {
   // Phase 3: Generate discovery index
   console.log("Phase 3: Generate index");
 
+  // Cloudflare RFC v0.2.0-compliant discovery index
   const index = {
-    $schema: "https://schemas.skillscraft.dev/discovery/0.1.0/schema.json",
+    $schema: "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
     name: "skillscraft-hub",
     description:
       "Official SkillsCraft marketplace — skills, prompts, agents, MCP",
@@ -316,4 +324,7 @@ async function main() {
   console.log("════════════════════════════════════════\n");
 }
 
-main();
+main().catch((err) => {
+  console.error("Build error:", err);
+  process.exit(1);
+});
