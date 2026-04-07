@@ -18,6 +18,9 @@ jobs:
           cache: "pnpm"
       - run: pnpm install
 
+      - name: Security scan
+        run: pnpm security
+
       - name: Run tests
         run: pnpm test
 

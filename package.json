@@ -5,6 +5,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "validate": "node scripts/validate-skills.mjs",
+    "security": "node scripts/security-scan.mjs",
     "test": "node --test scripts/validate-skills.test.mjs",
     "test:e2e": "pnpm exec playwright test",
     "serve": "npx serve dist -l 3333",
