@@ -80,7 +80,10 @@ async function main() {
         const w = lint.diagnostics.length;
         if (w > 0) {
           warnings += w;
-          console.log(`  \u2713 ${relPath} (${w} lint warning(s))`);
+          const ruleIds = lint.diagnostics
+            .map((d) => d.rule || d.id || "unknown")
+            .join(", ");
+          console.log(`  \u2713 ${relPath} (${w} warning(s): ${ruleIds})`);
         } else {
           console.log(`  \u2713 ${relPath}`);
         }

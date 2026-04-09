@@ -43,6 +43,18 @@ const require = createRequire(import.meta.url);
 const core = require("@skillscraft/core");
 const { parseSkill, validateSkill, lintSkill } = core;
 
+// CLI flags
+const args = process.argv.slice(2);
+const continueOnError = args.includes("--continue-on-error");
+const excludeIdx = args.indexOf("--exclude");
+const excludeNames = new Set();
+if (excludeIdx !== -1) {
+  // Collect all names after --exclude until next flag
+  for (let i = excludeIdx + 1; i < args.length && !args[i].startsWith("--"); i++) {
+    excludeNames.add(args[i]);
+  }
+}
+
 // skillignore — inline implementation (SDK exports these in >=0.10, not in 0.9.0)
 const DEFAULT_IGNORE = [
   "CODEOWNERS", "CHANGELOG.md", "CHANGELOG", "RELEASE-NOTES.md",
@@ -639,9 +651,21 @@ async function main() {
     process.exit(1);
   }
 
-  const skillDirs = readdirSync(SKILLS_SRC, { withFileTypes: true })
+  const allSkillDirs = readdirSync(SKILLS_SRC, { withFileTypes: true })
     .filter((d) => d.isDirectory())
     .map((d) => d.name);
+
+  const skillDirs = allSkillDirs.filter((name) => {
+    if (excludeNames.has(name)) {
+      console.log(`  ⊘ ${name} (excluded via --exclude)`);
+      return false;
+    }
+    return true;
+  });
+
+  if (excludeNames.size > 0) {
+    console.log(`  Excluded ${excludeNames.size} skill(s)\n`);
+  }
 
   console.log(`Found ${skillDirs.length} skill(s)\n`);
 
@@ -696,8 +720,13 @@ async function main() {
   }
 
   if (failed > 0) {
-    console.error(`\n${failed} skill(s) failed validation. Build aborted.`);
-    process.exit(1);
+    if (continueOnError) {
+      console.warn(`\n⚠ ${failed} skill(s) failed validation — continuing (--continue-on-error)`);
+    } else {
+      console.error(`\n${failed} skill(s) failed validation. Build aborted.`);
+      console.error("Use --continue-on-error to skip failed skills, or --exclude <name> to exclude specific skills.");
+      process.exit(1);
+    }
   }
 
   console.log(`\n${validated.length} skill(s) validated\n`);
