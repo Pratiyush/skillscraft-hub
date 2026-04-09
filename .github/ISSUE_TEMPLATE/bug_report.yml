@@ -1,0 +1,24 @@
+name: Bug Report
+description: Report a bug in the hub or a skill
+labels: [bug]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear description of what happened
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: input
+    id: skill
+    attributes:
+      label: Affected skill (if applicable)
+      description: "e.g., hello-skill, data-validation"
+    validations:
+      required: false

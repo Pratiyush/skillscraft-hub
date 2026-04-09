@@ -57,6 +57,14 @@ skill install skills/skill/hello-skill --target generic
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
+## Compatibility
+
+| Hub version | Framework version | Node.js |
+|-------------|-------------------|---------|
+| latest      | @skillscraft/core ^0.9.0 | >= 20.0.0 |
+
+The hub uses `@skillscraft/core` for build-time validation. Check `package.json` for the exact version constraint.
+
 ## Powered By
 
 Built with the [Agentic Skills Framework](https://github.com/Pratiyush/agentic-skills-framework) (`@skillscraft/spec`, `@skillscraft/core`, `@skillscraft/cli`).

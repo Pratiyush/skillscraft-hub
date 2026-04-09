@@ -1,0 +1,48 @@
+name: Skill Submission
+description: Submit a new skill to the hub
+labels: [skill-submission]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Skill name
+      description: "Lowercase, hyphenated (e.g., my-cool-skill)"
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - skill
+        - prompt
+        - agent
+        - mcp
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What does this skill do?
+    validations:
+      required: true
+  - type: input
+    id: language
+    attributes:
+      label: Primary language
+      description: "e.g., JavaScript, Python, Java, TypeScript"
+    validations:
+      required: true
+  - type: textarea
+    id: checklist
+    attributes:
+      label: Submission checklist
+      description: Confirm you've completed these steps
+      value: |
+        - [ ] SKILL.md has valid frontmatter (name + description)
+        - [ ] Skill passes `pnpm validate`
+        - [ ] .skillignore excludes dev-only files
+        - [ ] Scripts (if any) are tested locally
+    validations:
+      required: true

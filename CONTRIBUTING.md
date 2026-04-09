@@ -6,8 +6,9 @@ Thank you for your interest in contributing to the SkillsCraft Hub marketplace! 
 
 ### Prerequisites
 
-1. Install the SkillsCraft CLI: `npm install -g @skillscraft/cli`
-2. Familiarize yourself with the [Agent Skills specification](https://github.com/Pratiyush/agentic-skills-framework)
+> **Note:** `@skillscraft/cli` is not yet published to npm. For now, validation is handled by the build pipeline (`pnpm build`) which uses `@skillscraft/core` as a devDependency. You do not need to install the CLI separately.
+
+1. Familiarize yourself with the [Agent Skills specification](https://github.com/Pratiyush/agentic-skills-framework)
 
 ### Steps
 
@@ -30,21 +31,35 @@ Thank you for your interest in contributing to the SkillsCraft Hub marketplace! 
 4. **Copy your skill** into the appropriate category:
    ```
    skills/
-     skill/       # General-purpose skills
-     prompt/      # Prompt templates
-     agent/       # Agent configurations
-     mcp/         # MCP server skills
+     skill/       # General-purpose skills (active — accepting submissions)
+     prompt/      # Prompt templates (planned — spec and examples only)
+     agent/       # Agent configurations (planned — spec and examples only)
+     mcp/         # MCP server skills (planned — spec and examples only)
    ```
 
 5. **Open a Pull Request** using the PR template.
 
 ### Skill Requirements
 
-- Valid `SKILL.md` with complete frontmatter (name, description, version)
+- Valid `SKILL.md` with complete frontmatter (required: `name`, `description`; optional: `compatibility`, `license`, `metadata`, `allowed-tools`)
 - `skill validate` passes with zero errors
 - `skill lint` passes with no errors
-- `.skillignore` file excludes dev-only files
+- `.skillignore` file excludes dev-only files (see format below)
 - Scripts are executable and documented
+
+#### `.skillignore` format
+
+`.skillignore` follows `.gitignore` syntax — one pattern per line, `#` for comments, blank lines ignored.
+
+Common patterns:
+- `*.test.*` — exclude test files
+- `*.spec.*` — exclude spec files
+- `examples/` — exclude examples directory
+- `__tests__/` — exclude test directory
+- `.env` — exclude environment files
+
+If no `.skillignore` is present, a sensible default set is applied automatically during build.
+
 - Include a clear description of what the skill does and when agents should use it
 
 ### Skill Naming
@@ -57,9 +72,8 @@ Thank you for your interest in contributing to the SkillsCraft Hub marketplace! 
 
 1. Fork and create a branch
 2. Make your changes
-3. Bump the version in SKILL.md frontmatter
-4. Run `skill validate` and `skill lint`
-5. Open a PR describing the changes
+3. Run `pnpm build` to validate
+4. Open a PR describing the changes
 
 ## Reporting Issues
 
