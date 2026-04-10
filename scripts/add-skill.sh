@@ -7,6 +7,7 @@ set -euo pipefail
 # Options:
 #   --name <name>           Override skill name (default: directory name)
 #   --category <cat>        Category: skill|prompt|agent|mcp (default: skill)
+#   --type <type>            Alias for --category
 #   --license <license>     Set license in frontmatter
 #   --auto-fix              Auto-fix common issues
 #   --add-skillignore       Generate default .skillignore
@@ -41,6 +42,7 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --name) SKILL_NAME="$2"; shift 2 ;;
     --category) CATEGORY="$2"; shift 2 ;;
+    --type) CATEGORY="$2"; shift 2 ;;
     --license) LICENSE="$2"; shift 2 ;;
     --auto-fix) AUTO_FIX=true; shift ;;
     --add-skillignore) ADD_SKILLIGNORE=true; shift ;;
