@@ -18,8 +18,8 @@ importers:
         specifier: ^1.59.1
         version: 1.59.1
       '@skillscraft/core':
-        specifier: ^0.9.0
-        version: 0.9.0
+        specifier: ^0.9.1
+        version: 0.9.1
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.58.0
         version: 8.58.0(@typescript-eslint/parser@8.58.0(eslint@10.2.0)(typescript@6.0.2))(eslint@10.2.0)(typescript@6.0.2)
@@ -101,12 +101,12 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@skillscraft/core@0.9.0':
-    resolution: {integrity: sha512-/hATuCwCFc2CnhI2IvzR+o40ZS815SA/SBicB8DtT64a6p7wtE2W2D/P3AUo3RUj/AjWw8LfyURr+jfM8N3e8w==}
+  '@skillscraft/core@0.9.1':
+    resolution: {integrity: sha512-8ReztSc5nYM/9EzNXjcMsf3OoxfxdBwDbP2C0ZZGRCnCKhOlsj4h9s6Ee58ADSogWc260Onl1ZJSm63g1rqX6w==}
     engines: {node: '>=22.0.0'}
 
-  '@skillscraft/spec@0.9.0':
-    resolution: {integrity: sha512-/DfoJd9cgBiCcm09SXsdcLIrHhk8Q5EoaRk2FMkqhWsH4NHs17oWYNcu3vnT26u2Gl7TeHjBGN6jhEYXHMij0g==}
+  '@skillscraft/spec@0.9.1':
+    resolution: {integrity: sha512-uD99AKAzPq45pq1O0QV4X9Lm+nw2P1E27NMdF2ayxTWmEzPE5TbeS42rwztvy8qwcHNZFloXZOaK1o9kotxaLA==}
     engines: {node: '>=22.0.0'}
 
   '@types/esrecurse@4.3.1':
@@ -804,12 +804,12 @@ snapshots:
     dependencies:
       playwright: 1.59.1
 
-  '@skillscraft/core@0.9.0':
+  '@skillscraft/core@0.9.1':
     dependencies:
-      '@skillscraft/spec': 0.9.0
+      '@skillscraft/spec': 0.9.1
       yaml: 2.8.3
 
-  '@skillscraft/spec@0.9.0': {}
+  '@skillscraft/spec@0.9.1': {}
 
   '@types/esrecurse@4.3.1': {}
 
